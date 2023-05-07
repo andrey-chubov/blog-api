@@ -14,8 +14,7 @@ import * as swaggerDocument from './swagger/openapi.json'
 const app = express();
 
 app.use(cors({
-	credentials: true,
-	origin: config.hostClient
+	credentials: true
 }));
 const staticDir = path.join(__dirname, 'public')
 app.use(express.static(staticDir))

@@ -26,9 +26,6 @@ npm install
 # Порт HTTP соединения, default = 5000
 PORT=5000
 
-# Server address
-BASE_URL=http://localhost
-
 # Адресс для подключения к MongoDB
 DB_URL=
 

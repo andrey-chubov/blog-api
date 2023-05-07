@@ -1,0 +1,343 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API для блога на Express.js",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "API posts",
+      "description": "API для блога"
+    },
+    {
+      "name": "API authorization",
+      "description": "API для авторизации на блоге"
+    }
+  ],
+  "paths": {
+    "/posts/": {
+      "get": {
+        "summary": "возвращает все записи из блога",
+        "tags": [
+          "API posts"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "description": "номер страницы",
+            "schema": {
+              "type": "string",
+              "example": "1"
+            }
+          },
+					   {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "description": "лимит",
+            "schema": {
+              "type": "string",
+              "example": "20"
+            }
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "data": [
+											{
+												"_id": "645802883a98a228716c1fb0",
+												"message": "test",
+												"author": "6456a689997f027cbdd0168b",
+												"media": [
+													"src/media/0e7b9b23743fd83594eb110de1f007d3.jpg",
+													"src/media/a1153fa8cb5933d3bb7ec3228583168a.jpg",
+													"src/media/292921e8dda7bd2d6fdc4a969f2adfa7.jpg"
+												],
+												"createdAt": "2023-05-07T19:56:56.123Z",
+												"updatedAt": "2023-05-07T19:56:56.123Z",
+												"__v": 0
+											}
+										],
+										"paginationCount": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "добавляет новую запись в блог",
+        "tags": [
+          "API posts"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "message": "test message"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "123"
+            }
+          }
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+						"content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                      "_id": "616c585159e401788e1bbbe7",
+                      "message": "test message",
+                      "author": "6169bc84d27e8df781597b81",
+                      "media": [],
+                      "createdAt": "2021-10-17T17:07:29.801Z",
+                      "updatedAt": "2021-10-17T17:07:29.801Z",
+                      "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+     
+    },
+		"/posts/{id}": {
+			"patch": {
+        "summary": "изменяет запись в блоге",
+        "tags": [
+          "API posts"
+        ],
+				 "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+							"schema": {
+								"type": "string",
+								"required": true,
+								" description": "Numeric ID of the user to update post"
+							}
+            }
+          ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "message": "new test message"
+              }
+            }
+          }
+        },
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+						"content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                      "_id": "616c585159e401788e1bbbe7",
+                      "message": "new test message",
+                      "author": "6169bc84d27e8df781597b81",
+                      "media": [],
+                      "createdAt": "2021-10-17T17:07:29.801Z",
+                      "updatedAt": "2021-10-17T17:07:29.801Z",
+                      "__v": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+			 "delete": {
+        "summary": "удаляет запись из блога",
+        "tags": [
+          "API posts"
+        ],
+        "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+							"schema": {
+								"type": "string",
+								"required": true,
+								" description": "Numeric ID of the user to delete post"
+							}
+            }
+          ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+						"content": {
+              "document": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                      "acknowledged": true,
+  										"deletedCount": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+		},
+    "/users/login": {
+      "post": {
+        "summary": "авторизация в блоге",
+        "tags": [
+          "API авторизации"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              },
+              "example": {
+                "login": "admin",
+                "password": "admin"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "UserInput",
+            "in": "body",
+            "required": true,
+            "description": "Логин и пароль пользователя",
+            "schema": {
+              "$ref": "#/components/schemas/UserInput"
+            }
+          }
+        ],
+        "description": "тестовые данные для входа",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "summary": "регистрация в блоге",
+        "tags": [
+          "API авторизации"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserInput"
+              },
+              "example": {
+                "login": "admin",
+                "password": "admin"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "UserInput",
+            "in": "body",
+            "required": true,
+            "description": "Логин и пароль пользователя",
+            "schema": {
+              "$ref": "#/components/schemas/UserInput"
+            }
+          }
+        ],
+        "description": "тестовые данные для входа",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+		 "/users/logout": {
+      "get": {
+        "summary": "выход из блога",
+        "tags": [
+          "API авторизации"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+		 "/users/refresh": {
+      "get": {
+        "summary": "обновление пары токенов",
+        "tags": [
+          "API авторизации"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserInput": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

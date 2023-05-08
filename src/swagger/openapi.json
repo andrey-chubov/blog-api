@@ -259,7 +259,7 @@
         }
       }
     },
-    "/users/register": {
+    "/users/registration": {
       "post": {
         "summary": "регистрация в блоге",
         "tags": [
